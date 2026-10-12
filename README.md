@@ -1,5 +1,15 @@
 # SteamOS Tegra / Nintendo Switch — source image builders
 
+> **Development status: not suitable for everyday use.**
+> This project is a research prototype, not a practical SteamOS gaming system at
+> this stage. Serious performance, stability and game compatibility limitations
+> remain. The sources are published for research and development.
+>
+> **Текущее состояние: проект непригоден для повседневного использования.**
+> Это исследовательский прототип. Существенные ограничения производительности,
+> стабильности и совместимости с играми делают практическое использование системы
+> крайне затруднительным. Исходники опубликованы для разработки и исследований.
+
 Community development scripts for assembling SteamOS ARM userland with the Switchroot
 Linux/L4T platform and the Tegra graphics stack. **Alpha development source**, not an
 official Valve/Switchroot distribution and not a newly validated ready-to-flash release.
