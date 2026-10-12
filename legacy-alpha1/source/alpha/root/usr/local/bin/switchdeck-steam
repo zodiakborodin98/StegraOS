@@ -1,0 +1,32 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-3.0-only
+# Adapted from SildurFX/Switchdeck be0578fbf00c5a14a988a830f914f2c34cdaa1a1.
+set -uo pipefail
+STEAMROOT=/home/steamos/.local/share/Steam
+mkdir -p /home/steamos/.local/state/switchdeck
+exec >> /home/steamos/.local/state/switchdeck/steam-console.log 2>&1
+echo "Steam started: $(date -Is)"
+export PROTON_USE_WOW64=1 PROTON_DXVK_SAREK=1 WINEESYNC=0
+export PROTON_NO_ESYNC=1 PROTON_NO_FSYNC=1 PROTON_NO_NTSYNC=1
+export STAGING_WRITECOPY=1 STAGING_SHARED_MEMORY=1 __GL_THREADED_OPTIMIZATIONS=1
+export DXVK_ALL_CORES=1 BOX64_PROFILE=default BOX64_X87_NO80BITS=1
+export BOX64_DYNAREC_CALLRET=2 BOX64_DYNAREC_BIGBLOCK=3 BOX64_LOG=1 WINEDEBUG=-all DXVK_LOG_LEVEL=warn
+export SYSTEM_PATH="$PATH" SYSTEM_LD_LIBRARY_PATH="${LD_LIBRARY_PATH-}"
+export SYSTEM_ZENITY=/usr/bin/zenity STEAM_ZENITY=/usr/bin/zenity TEXTDOMAIN=steam TEXTDOMAINDIR=/usr/share/locale
+export SDL_VIDEODRIVER=x11 QT_QPA_PLATFORM=xcb __GLX_VENDOR_LIBRARY_NAME=nvidia
+export VK_ICD_FILENAMES=/etc/vulkan/icd.d/nvidia_icd.json
+export __EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/10_nvidia.json
+shopt -s nullglob
+runtimes=("$STEAMROOT"/steamrtarm64/pv-runtime/steam-runtime-steamrt-arm64/steamrt3c_platform_*/files)
+rtarm=${runtimes[0]-}
+export LD_LIBRARY_PATH="$STEAMROOT/steamrtarm64${rtarm:+:$rtarm/lib/aarch64-linux-gnu:$rtarm/lib}:$STEAMROOT/steamrt64:${LD_LIBRARY_PATH-}"
+cd "$STEAMROOT" || exit 1
+flags=(-vrskip -fasthtml -vrdisable -noverifyfiles -nocrashmonitor -no-cef-sandbox
+       -cef-disable-sandbox -cef-single-process -cef-in-process-gpu -cef-disable-breakpad
+       -cef-disable-js-logging -cef-disable-seccomp-sandbox -720p -steampal -gamepadui -steamdeck)
+for attempt in 1 2 3; do
+    "$STEAMROOT/steamrtarm64/steam" "${flags[@]}" "$@"
+    result=$?; echo "Steam exit: $result"
+    [[ $result = 42 ]] || exit "$result"
+done
+exit 42

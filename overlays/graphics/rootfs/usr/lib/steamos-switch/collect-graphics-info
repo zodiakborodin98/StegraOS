@@ -1,0 +1,123 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
+# GPU diagnostics on the real Switch only. No Steam, login, network or updates.
+set -u
+umask 077
+export LC_ALL=C
+export PATH=/usr/bin:/usr/sbin
+export XDG_RUNTIME_DIR=/run/steamos-switch-graphics
+prefix=/usr/lib/steamos-switch-nvidia
+boot_id=$(cat /proc/sys/kernel/random/boot_id)
+case "$boot_id" in *[!0-9a-f-]*|'') exit 2 ;; esac
+report="/var/log/steamos-switch/graphics-${boot_id}"
+mkdir -- "$report" || exit 2
+set -o noclobber
+exec 3>"$report/probe.txt" || exit 2
+printf 'SteamOS Switch graphics probe: logs in %s\n' "$report"
+exec >&3 2>&3
+printf '%s\n' 'Diagnostic only; this is not a SteamOS Gaming Mode validation.'
+date --iso-8601=seconds
+uname -a
+printf '\nTegra and display device nodes:\n'
+find /dev -maxdepth 2 \( -name 'nv*' -o -name 'tegra*' -o -path '/dev/dri/*' -o -name 'fb*' \) -printf '%M %u:%g %p\n'
+printf '\nRuntime manifest:\n'
+cat "$prefix/manifest.json"
+
+bounded() {
+    local name=$1 seconds=$2 result
+    shift 2
+    printf '\nRunning %s (limit %s seconds)\n' "$name" "$seconds"
+    timeout --signal=TERM --kill-after=3s "${seconds}s" "$@" >"$report/$name.txt" 2>&1
+    result=$?
+    printf '%s\n' "$result" >"$report/$name.exit"
+    printf '%s exit=%s\n' "$name" "$result"
+    return 0
+}
+
+# Enumeration is useful even if Xorg cannot start. Never substitute another ICD.
+unset DISPLAY WAYLAND_DISPLAY XAUTHORITY
+bounded vulkan-headless 30 "$prefix/run" vulkaninfo
+
+xorg_pid=''
+restore_vt=1
+cleanup() {
+    local result=$?
+    trap - EXIT INT TERM
+    if [[ -n $xorg_pid ]]; then
+        # This PID is our own GNU timeout monitor; it forwards TERM to its child.
+        kill -TERM "$xorg_pid" 2>/dev/null || true
+        wait "$xorg_pid" 2>/dev/null || true
+        printf 'Restoring console VT%s\n' "$restore_vt"
+        timeout --kill-after=1s 3s chvt "$restore_vt" || true
+    fi
+    printf '\nProbe finished, status=%s\n' "$result"
+    exit "$result"
+}
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+if systemctl is-active --quiet display-manager.service || pgrep -x Xorg >/dev/null || pgrep -x Xwayland >/dev/null; then
+    printf '%s\n' 'Skipping isolated Xorg: an existing display session is active.'
+else
+    display=''
+    for number in {99..109}; do
+        if [[ ! -e /tmp/.X11-unix/X$number && ! -e /tmp/.X$number-lock ]]; then
+            display=:$number
+            break
+        fi
+    done
+    if [[ -z $display ]]; then
+        printf '%s\n' 'Skipping Xorg: all reserved probe display numbers are occupied.'
+    else
+        export DISPLAY=$display
+        export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+        cookie=$(od -An -N16 -tx1 /dev/urandom | tr -d ' \n')
+        if [[ ${#cookie} != 32 ]] || ! xauth -f "$XAUTHORITY" add "$DISPLAY" MIT-MAGIC-COOKIE-1 "$cookie"; then
+            printf '%s\n' 'Could not create private Xorg authentication; refusing to start server.'
+            exit 2
+        fi
+        unset cookie
+        chmod 600 "$XAUTHORITY"
+        mkdir -- "$XDG_RUNTIME_DIR/xorg.conf.d"
+        if read -r active_tty </sys/class/tty/tty0/active && [[ $active_tty =~ ^tty([1-9][0-9]?)$ ]]; then
+            restore_vt=${BASH_REMATCH[1]}
+        fi
+        printf 'Starting authenticated Xorg on %s; TCP listening disabled.\n' "$DISPLAY"
+        printf 'Display will temporarily use VT8, then return to VT%s.\n' "$restore_vt"
+        timeout --signal=TERM --kill-after=3s 190s "$prefix/run" /usr/lib/Xorg "$DISPLAY" vt8 \
+            -nolisten tcp -noreset \
+            -auth "$XAUTHORITY" -config "$prefix/config/xorg.conf" \
+            -configdir "$XDG_RUNTIME_DIR/xorg.conf.d" \
+            -logfile "$report/Xorg.log" >"$report/Xorg-console.txt" 2>&1 &
+        xorg_pid=$!
+        ready=0
+        for ((attempt=0; attempt<12; attempt++)); do
+            if timeout --kill-after=1s 1s xdpyinfo -display "$DISPLAY" >/dev/null 2>&1; then
+                ready=1
+                break
+            fi
+            kill -0 "$xorg_pid" 2>/dev/null || break
+            sleep 1
+        done
+        printf 'Xorg ready=%s\n' "$ready"
+        if [[ $ready == 1 ]]; then
+            bounded xdisplay 5 xdpyinfo
+            bounded glx 15 "$prefix/run" glxinfo -B
+            bounded egl 15 "$prefix/run" eglinfo -B
+            bounded vulkan-x11 40 "$prefix/run" vulkaninfo
+            # Genuine installed gamescope; a two-second harmless child, no Steam.
+            # This catches the actual Vulkan/device failure instead of guessing.
+            bounded gamescope 45 "$prefix/run" env SDL_VIDEODRIVER=x11 \
+                gamescope --backend sdl -W 1280 -H 720 -- /usr/bin/sleep 2
+        fi
+    fi
+fi
+
+# Reports UNKNOWN if Vulkan enumeration failed or output could not be recognized.
+# Do not turn a missing driver/device into a false claim of a missing extension.
+/usr/bin/python3 /usr/lib/steamos-switch/summarize-graphics-info "$report"
+printf '\nCapability summary:\n'
+cat "$report/capabilities.json"
+printf '\nRecent NVIDIA kernel messages:\n'
+dmesg | grep -Ei 'nvrm|nvhost|nvgpu|tegra.*(drm|dc)|gpu.*fault' | tail -120

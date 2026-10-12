@@ -1,0 +1,88 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin LC_ALL=C LANG=C
+ulimit -c 0
+bb() { /bin/busybox "$@"; }
+say() { echo "Switchdeck Alpha 1: $*" > /dev/console; echo "$*"; }
+stop() { say "$*"; bb sync; say 'Stopped. Hold POWER to turn off.'; while :; do sleep 60; done; }
+mount -t proc proc /proc || exit 1
+mount -t devtmpfs devtmpfs /dev || exit 1
+mount -t sysfs sysfs /sys || stop 'Cannot mount sysfs'
+mkdir -p /run /tmp /newroot
+mount -t tmpfs -o mode=755,nosuid,nodev tmpfs /run || stop 'Cannot mount /run'
+chmod 1777 /tmp
+mkdir -p /run/initramfs/mounts/{boot,lower,data} /run/initramfs/{bin,dev,sys,proc,oldroot}
+cp /bin/busybox /run/initramfs/bin/busybox
+bb ln -s busybox /run/initramfs/bin/sh
+cp /alpha-shutdown /run/initramfs/shutdown
+chmod 755 /run/initramfs/shutdown
+base=/run/initramfs/mounts
+boot_partition=1
+for argument in $(cat /proc/cmdline); do case "$argument" in boot_p=*) boot_partition=${argument#boot_p=} ;; esac; done
+case "$boot_partition" in ''|*[!0-9]*) stop 'Invalid boot partition' ;; esac
+((boot_partition >= 1 && boot_partition <= 128)) || stop 'Invalid partition range'
+# Hekate entry has emmc=0. Never search/mount any other block device.
+sd_fat="/dev/mmcblk0p${boot_partition}"
+for ((n=0; n<100; n++)); do [[ -b "$sd_fat" ]] && break; sleep 0.1; done
+[[ -b "$sd_fat" ]] || stop 'SD card not visible'
+mount -t vfat -o rw,noatime,umask=0077 "$sd_fat" "$base/boot" || stop 'Cannot mount FAT32 SD'
+folder="$base/boot/switchroot/switchdeck-alpha"
+mkdir -p "$base/boot/switchdeck-logs" || stop 'Cannot create logs'
+run=1
+while [[ -e "$base/boot/switchdeck-logs/alpha1-${run}-init.log" ]]; do ((run++)); done
+printf '%s\n' "$run" > /run/switchdeck-run
+exec > "$base/boot/switchdeck-logs/alpha1-${run}-init.log" 2>&1
+echo 'SWITCHDECK STEAMOS ALPHA 1 — 2026-09-28'
+cat /proc/version
+for argument in $(cat /proc/cmdline); do case "$argument" in switchdeck_*=*|systemd.*=*|SYSTEMD_CGROUP*=*) echo "$argument" ;; esac; done
+[[ -s "$folder/rootfs.squashfs" ]] || stop 'Missing switchroot/switchdeck-alpha/rootfs.squashfs'
+say 'Checking SteamOS image. Please wait.'
+cd "$folder" || stop 'Cannot open image folder'
+bb sha256sum -c /alpha-rootfs.sha256 || stop 'SteamOS checksum mismatch; copy image again'
+cd / || exit 1
+if [[ ! -e "$folder/userdata.ext4" ]]; then
+    [[ ! -e "$folder/userdata.ext4.new" ]] || stop 'Incomplete userdata.ext4.new. Remove ONLY that incomplete file on a PC and retry.'
+    [[ -s "$folder/userdata-template.ext4.gz" ]] || stop 'Missing userdata template'
+    free_kb=$(bb df -Pk "$base/boot" | bb awk 'NR==2 {print $4}')
+    [[ "$free_kb" =~ ^[0-9]+$ ]] && ((free_kb > 4000000)) || stop 'Need 4 GB free on FAT32 for userdata'
+    say 'Creating 3.75 GiB userdata. Keep the charger connected and wait.'
+    gzip -dc "$folder/userdata-template.ext4.gz" > "$folder/userdata.ext4.new" || stop 'Cannot create userdata'
+    [[ $(bb stat -c %s "$folder/userdata.ext4.new") = 4026531840 ]] || stop 'Wrong userdata size'
+    bb sync
+    bb mv "$folder/userdata.ext4.new" "$folder/userdata.ext4" || stop 'Cannot finish userdata'
+fi
+[[ $(bb stat -c %s "$folder/userdata.ext4") = 4026531840 ]] || stop 'Unexpected userdata size'
+mount -t squashfs -o loop,ro "$folder/rootfs.squashfs" "$base/lower" || stop 'Cannot mount SteamOS squashfs'
+mount -t ext4 -o loop,noatime "$folder/userdata.ext4" "$base/data" || stop 'Cannot mount userdata; preserve file for repair'
+mkdir -p "$base/data/upper" "$base/data/work"
+mount -t overlay overlay -o "lowerdir=$base/lower,upperdir=$base/data/upper,workdir=$base/data/work" /newroot || stop 'Cannot mount writable root'
+mkdir -p /newroot/{dev,proc,sys,run,tmp}
+chmod 1777 /newroot/tmp
+# Personalise Broadcom firmware before udev; never print MACs/calibration/keys.
+for kind in wifi bluetooth; do
+    mac=''
+    IFS= read -r -d '' mac < "/sys/firmware/devicetree/base/chosen/nvidia,${kind}-mac" || true
+    if [[ "$mac" =~ ^([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}$ ]]; then
+        if [[ "$kind" = wifi ]]; then
+            fw=/newroot/usr/lib/firmware/brcm/brcmfmac4356A3-pcie.txt
+            [[ ! -f "$fw" ]] || sed -i "s/^macaddr=.*/macaddr=$mac/" "$fw"
+        else
+            fw=/newroot/usr/lib/firmware/brcm/BCM4356A3.hcd
+            if [[ -f "$fw" ]]; then
+                IFS=: read -r a b c d e f <<< "$mac"
+                printf '%b' "\\x$f\\x$e\\x$d\\x$c\\x$b\\x$a" | dd of="$fw" bs=1 seek=33 count=6 conv=notrunc
+            fi
+        fi
+        echo "Personalised $kind firmware"
+    else echo "No valid $kind MAC in device tree"; fi
+done
+chroot /newroot /usr/bin/ldconfig || stop 'Cannot configure native dynamic loader'
+say 'Starting SteamOS systemd and graphical session.'
+echo 'INIT_COMPLETE'
+bb sync
+exec > /dev/console 2>&1
+mount --move /run /newroot/run || exit 1
+mount --move /dev /newroot/dev || exit 1
+mount --move /sys /newroot/sys || exit 1
+mount --move /proc /newroot/proc || exit 1
+exec switch_root /newroot /usr/lib/systemd/systemd

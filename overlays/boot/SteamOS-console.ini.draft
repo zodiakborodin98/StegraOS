@@ -1,0 +1,9 @@
+[SteamOS Switch - console bring-up]
+l4t=1
+boot_prefixes=/switchroot/steamos/
+id=SWR-STM
+rootfstype=ext4
+r2p_action=bootloader
+emmc=0
+fbconsole=0
+bootargs_extra=SYSTEMD_CGROUP_ENABLE_LEGACY_FORCE=1 systemd.unit=multi-user.target systemd.gpt_auto=0

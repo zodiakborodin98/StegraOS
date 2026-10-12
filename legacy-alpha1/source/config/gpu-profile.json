@@ -1,0 +1,143 @@
+{
+  "name": "Switchroot Noble default NVIDIA 32.3.1 / GM20B",
+  "nvidia_version": "32.3.1-20191209225816",
+  "switch_bsp_version": "5.1.2-34+24.04",
+  "nvgpu_module_path": "lib/modules/4.9.140-l4t/kernel/drivers/gpu/nvgpu/nvgpu.ko",
+  "nvgpu_module_sha256": "8ec7311330cfa843205d9184b15d2c1c3a3c09adb9c1105273300a54ffc20356",
+  "icd_api_version": "1.1.85",
+  "firmware": [
+    {
+      "name": "NETB_img.bin",
+      "path": "lib/firmware/gm20b/NETB_img.bin",
+      "sha256": "5b285e5de99b935c2619e54b1656b8a2f271ba845e80952faadfd09960d6eea3",
+      "bytes": 70502
+    },
+    {
+      "name": "acr_ucode.bin",
+      "path": "lib/firmware/gm20b/acr_ucode.bin",
+      "sha256": "f948c259ca1c9fc8aad3013fe67372243be025b2790016f0ad9e60f7f4534841",
+      "bytes": 18944
+    },
+    {
+      "name": "fecs.bin",
+      "path": "lib/firmware/gm20b/fecs.bin",
+      "sha256": "6b5a3ce1f2fd1381b8aed500e0d034561a8b3054e7702e8447e12fcde7978253",
+      "bytes": 528
+    },
+    {
+      "name": "fecs_sig.bin",
+      "path": "lib/firmware/gm20b/fecs_sig.bin",
+      "sha256": "0cca8b6fb18bdc660ad65970f54ec9dd5c51ae9d9ab68244b1c4dc017f6248fc",
+      "bytes": 108
+    },
+    {
+      "name": "gpccs.bin",
+      "path": "lib/firmware/gm20b/gpccs.bin",
+      "sha256": "97bda367d2b2cffa98b8084dae7803233474e439d1bdf6edc4029b405695f7ba",
+      "bytes": 528
+    },
+    {
+      "name": "gpmu_ucode.bin",
+      "path": "lib/firmware/gm20b/gpmu_ucode.bin",
+      "sha256": "83df949177f63e4560f2c50a5fc0affbc6e364d075ae5647946199acf7579d58",
+      "bytes": 48524
+    },
+    {
+      "name": "gpmu_ucode_desc.bin",
+      "path": "lib/firmware/gm20b/gpmu_ucode_desc.bin",
+      "sha256": "e76b29528f63ab09ce85e91767c8a3fa5dc6a4704c7ca0efb1faf095f1faf76b",
+      "bytes": 652
+    },
+    {
+      "name": "gpmu_ucode_image.bin",
+      "path": "lib/firmware/gm20b/gpmu_ucode_image.bin",
+      "sha256": "1e14af6fb9760cfb37c95199bbbb2c01f51ba1ad6b56104a27beac137368e699",
+      "bytes": 47872
+    },
+    {
+      "name": "gpu2cde.bin",
+      "path": "lib/firmware/gm20b/gpu2cde.bin",
+      "sha256": "fb8d5b8ca92c85316e1b64f244714e0b14412cda3925b4c229d094fa6b8798ce",
+      "bytes": 28308
+    },
+    {
+      "name": "pmu_bl.bin",
+      "path": "lib/firmware/gm20b/pmu_bl.bin",
+      "sha256": "364cf184d6f3ae0130ae449748e688d76bba3e33de2704ca536a5144751f12e1",
+      "bytes": 1280
+    },
+    {
+      "name": "pmu_sig.bin",
+      "path": "lib/firmware/gm20b/pmu_sig.bin",
+      "sha256": "de3aab7bf47484ce8b8cf4f66de551e43f06d8f3db177bf9e5aaf1b653a5c132",
+      "bytes": 76
+    }
+  ],
+  "bsp_files_sha256": {
+    "lib/firmware/gm20b/NETB_img.bin": "5b285e5de99b935c2619e54b1656b8a2f271ba845e80952faadfd09960d6eea3",
+    "lib/firmware/gm20b/acr_ucode.bin": "f948c259ca1c9fc8aad3013fe67372243be025b2790016f0ad9e60f7f4534841",
+    "lib/firmware/gm20b/fecs.bin": "6b5a3ce1f2fd1381b8aed500e0d034561a8b3054e7702e8447e12fcde7978253",
+    "lib/firmware/gm20b/fecs_sig.bin": "0cca8b6fb18bdc660ad65970f54ec9dd5c51ae9d9ab68244b1c4dc017f6248fc",
+    "lib/firmware/gm20b/gpccs.bin": "97bda367d2b2cffa98b8084dae7803233474e439d1bdf6edc4029b405695f7ba",
+    "lib/firmware/gm20b/gpmu_ucode.bin": "83df949177f63e4560f2c50a5fc0affbc6e364d075ae5647946199acf7579d58",
+    "lib/firmware/gm20b/gpmu_ucode_desc.bin": "e76b29528f63ab09ce85e91767c8a3fa5dc6a4704c7ca0efb1faf095f1faf76b",
+    "lib/firmware/gm20b/gpmu_ucode_image.bin": "1e14af6fb9760cfb37c95199bbbb2c01f51ba1ad6b56104a27beac137368e699",
+    "lib/firmware/gm20b/gpu2cde.bin": "fb8d5b8ca92c85316e1b64f244714e0b14412cda3925b4c229d094fa6b8798ce",
+    "lib/firmware/gm20b/pmu_bl.bin": "364cf184d6f3ae0130ae449748e688d76bba3e33de2704ca536a5144751f12e1",
+    "lib/firmware/gm20b/pmu_sig.bin": "de3aab7bf47484ce8b8cf4f66de551e43f06d8f3db177bf9e5aaf1b653a5c132",
+    "usr/lib/aarch64-linux-gnu/tegra/libGLX_nvidia.so.0": "2ebc88db7ae56a8d0641fc8e077d1ae5bed035848bf2cf6830150df1a6499dd8",
+    "usr/lib/aarch64-linux-gnu/tegra/libdrm.so.2": "f96041f53992245fe94cd69d0d44d8a4badcc2829babd4a691ab80df21bfcff2",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvcolorutil.so": "789ea21da9ba03e94bb4125ab77c08479d19fe41e24b47905c056faf9bf69529",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvdc.so": "21e0358fdc93ff88a95b847311a41d4beb000c54abf0369ef8542727cfd51986",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvddk_2d_v2.so": "c6161c221210b1ddaceed7b8ae5a075232786e9e8917968bd437f2984afdedab",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvddk_vic.so": "7267fe59ccb82a1d28c0bbd5db335256cfae0b4319794d9b16f525a32fcd764b",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvfnet.so": "b309aadf8722e805a65a76f94b532ef53219e81ea79dea85803d93c949f658fc",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvfnetstoredefog.so": "f334df03e444a23ead0a1d7d9517cfede74e94a2355caff94d20a95214155bb2",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvfnetstorehdfx.so": "3ad4acca7a5d58c7ffc73058336091b1cc2c8ac222585ad348cf43c645640a85",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvgbm.so": "09e32f721343ad415d11ac6814e334983ad3c188182adb639735045729dcfbba",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvgov_boot.so": "260f2e63fae11080d178fef794348205592cfd0c36620d1fe7c8fb059d198933",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvgov_camera.so": "fe97dac62fcfb4f1e07195ff80a175ee37900fb0e1efb51d37233629258b989c",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvgov_force.so": "4c7ac76febc0ae70db633115130a93cd37dd03ad7928a99d2c42dc8db5928e70",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvgov_generic.so": "90101eb524bf8ae505c2b1819de129ee1e7cfdc73240e6622eed7a853d726881",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvgov_gpucompute.so": "fc1f8132ba1af4e7b23190953ec0b6dd065a251e5c0937c20d85e4c72ea2ff57",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvgov_graphics.so": "f3448b87f0bc0250076dc16a6583796d7c8d4054946d96669324466ee7725354",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvgov_il.so": "49bf24aafbf44848929ea2ac1fc710a05d632b6d79f636e9722e6d26387ef0b8",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvgov_spincircle.so": "4087a2bbd269396cb404ebbd7fff88fc86e47c15d99da056769a0801ff30e3b6",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvgov_tbc.so": "a21a9b1592be834c2fff2865944546460591a8497a9ea73edeaad98839bebf44",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvgov_ui.so": "caaf4589718af496e374b34aa456f8d5c3ef18a0487660b83ddd6fb490fbb3bb",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvidia-egl-wayland.so": "548cc96bc51867e492d8ed90c3be5ea815c63898b6339028650dc36d82435015",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvidia-eglcore.so.32.3.1": "c83003ce08f271c210c12f5641e9a785970f2a8ff83d994fb769116b1fb6f364",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvidia-fatbinaryloader.so.32.3.1": "a2714303aa40c0a3adc2b43d2610ead7fee6bdd6ef163940715e6dbfe75d238b",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvidia-glcore.so.32.3.1": "4e91e81bbf9f7c65a763e05ca163c8a077d3deb42a53e11ddf3c1c4655ce3f47",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvidia-glsi.so.32.3.1": "a173e65ed47caff48d2663f4cd3d36fa06d4aa9a40ea016057be4d3b0b56b060",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvidia-glvkspirv.so.32.3.1": "2053a8a428f2af91dbc01405c3f7f69458c21e811fa635ce3dfa9a11cf147929",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvidia-ptxjitcompiler.so.32.3.1": "bb361f7e261fb7cd61592dda1dd94476beef0b8c8fd1d4564a5f0c8234a06d23",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvidia-rmapi-tegra.so.32.3.1": "7251d8943935a084e24b6d4fbdf2de0550efead1452c5a383f4b8de06ef5a62e",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvidia-tls.so.32.3.1": "ae5dfbab9fcf4198100ed07b99c332f739008354d29ec853eb1df42a1b71f7b7",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvimp.so": "f7e1efdaa8ed2938d24ec23fcad7f44b52319c3439ee8b1852025302deff5a4f",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvll.so": "a951575c2232282427ea2c00ffd21e8a962fec540083e8f358086b36ee0b2379",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvos.so": "4d289da2d317ee80e43bf5b0ab0d1e31d9b423921c41c0b2f119b48c8b76e406",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvphs.so": "cff80d59ed6e0ab4f720fd858718ad9d5570f8ba7c97e8d23cfed4ff83b14632",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvphsd.so": "d84e0c426575594990311aa0039cc74cdd4d6618c995d24230cc22f8d12ea64e",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvrm.so": "8612d95db053a9cedbd76110334097fce7a60974637845221574d5a5fba70964",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvrm_gpu.so": "774f8957e62490ddcfe4419a86f9e7aaf3b45e0599dda87ea8218177fa82cd87",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvrm_graphics.so": "bc763e106499a21bf25c46fa4cca0fec7c0373717d5113b3152287f62d9c6a12",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvvulkan-producer.so": "2520da247af1f2177e068bffa3586ce908080a8f3e9149b515ccf7975081b5cf",
+    "usr/lib/aarch64-linux-gnu/tegra/libnvwinsys.so": "65789ae64c827854e1972be9f4c341b69ecd42efeeb5dac41f3bd9b98600c40c",
+    "usr/lib/aarch64-linux-gnu/tegra/libsensors.hal-client.nvs.so": "e534743498f63c7b2b714df2450e6343195fe9641b93fa45b3808a048f4563d6",
+    "usr/lib/aarch64-linux-gnu/tegra/libsensors.l4t.no_fusion.nvs.so": "f2c7111915df6aff8944cc6e961f1e9076a6967ad8cd3b5abfffed59e98cfead",
+    "usr/lib/aarch64-linux-gnu/tegra/libsensors_hal.nvs.so": "98c6ae27d9775650f835cf1817a9a7032c874904e5deaacc4c1c8ab74845bcff",
+    "usr/lib/aarch64-linux-gnu/tegra-egl/libEGL_nvidia.so.0": "b69299ae53eba25d7cb49279c60ef10f58765fbd5fbfeb8f125b0418a5dab54f",
+    "usr/lib/aarch64-linux-gnu/tegra-egl/libGLESv1_CM_nvidia.so.1": "48fd2f9d234da3f03cd62baf2eb8bb7f4c80aedf682fb0c435978191d4ea4e02",
+    "usr/lib/aarch64-linux-gnu/tegra-egl/libGLESv2_nvidia.so.2": "a33d364c90f0e08c1acd7b0637bfdf80796365a09d1730c71cad8c80d100ae00",
+    "etc/nv_tegra_release": "f4f01a4047758247ab33b1be5b259541c24632b59e28ab6ada5faceb27e03dbb",
+    "usr/lib/aarch64-linux-gnu/tegra/nvidia_icd.json": "823aaaa31eda6b0bc7734a53838d08f7211384188d1e24371f4335f2c5345611"
+  },
+  "basis": "Firmware names audited in the Switchroot nvgpu branch used by the maintainer build script; package versions and hashes agree with its default Noble package index. Binary and source are inspected separately; reproducible kernel rebuild was not performed.",
+  "references": [
+    "https://github.com/theofficialgman/l4t-kernel-build-scripts/blob/master/l4t-linux-build.sh",
+    "https://github.com/theofficialgman/l4t-debs/blob/main/dists/l4t/noble/binary-arm64/Packages",
+    "https://gitlab.com/switchroot/kernel/l4t-kernel-nvgpu/-/tree/linux-3.4.0-r32.5"
+  ],
+  "inspected_nvgpu_source_archive_sha256": "3cb0c9caabe8055ceccde4b3e5fde0d4ffddb188c0d1dfb709935f2075d950bc"
+}

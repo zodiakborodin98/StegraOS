@@ -1,0 +1,10 @@
+[Unit]
+Description=Export experimental SteamOS Switch boot evidence to the SD FAT partition
+
+[Timer]
+OnBootSec=60s
+AccuracySec=5s
+Unit=steamos-switch-export-logs.service
+
+[Install]
+WantedBy=timers.target

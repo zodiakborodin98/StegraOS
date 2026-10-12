@@ -1,0 +1,194 @@
+[
+  {
+    "name": "steamframe-0.3.0.img.zip",
+    "url": "https://steamdeck-images.steamos.cloud/recovery/steamframe-oobe-repair-20260922.5153644-0.3.0.img.zip",
+    "sha256": "672df1b9c5c6b849df506c995a32fe136b53c4db688f924e6727639dd8b963a9",
+    "bytes": 4061612171
+  },
+  {
+    "name": "switch-bsp.deb",
+    "url": "https://raw.githubusercontent.com/theofficialgman/l4t-debs/main/pool/noble/s/switch-bsp/switch-bsp_5.1.2-34+24.04_all.deb",
+    "sha256": "3652c4303bf274e9148fde70ef6023c6cb3ade48b6d1170179d9caba6b975f4e",
+    "bytes": 41672158
+  },
+  {
+    "name": "proton.tar.gz",
+    "url": "https://github.com/SildurFX/Switchdeck-Extras/releases/download/Proton-11.0-1-Armv8.0/Proton.11.0-1.Armv8.0.FEX.tar.gz",
+    "sha256": "8df3a4f86b32091891c936fc3d9899900e99085604a28d507ad6a85815fd6180",
+    "bytes": 585103296
+  },
+  {
+    "name": "dxvk.tar.gz",
+    "url": "https://github.com/pythonlover02/dxvk-sarek/releases/download/v1.13.0/dxvk-sarek-1.13.0.tar.gz",
+    "sha256": "b42d8f2edeb5ed53d1e0009e17bcd765f53c1ac0fda6c936a76b70b2c289dcf8",
+    "bytes": 9726214
+  },
+  {
+    "name": "vkd3d.tar.zst",
+    "url": "https://github.com/HansKristian-Work/vkd3d-proton/releases/download/v2.3.1/vkd3d-proton-2.3.1.tar.zst",
+    "sha256": "cc16085c2f9a579eb5a6f5caf99837d2f78606fd078dfab487f121bd1d14cc93",
+    "bytes": 1949704
+  },
+  {
+    "name": "steam-runtime-arm64.tar.xz",
+    "url": "https://repo.steampowered.com/steamrt3c/images/3c.0.20260824.257593/steam-runtime-steamrt-arm64.tar.xz",
+    "sha256": "2f2be461b6a4360828e200e1644e18cd957eedc36a38e5a1e13a39276320b6e2",
+    "bytes": 52436064
+  },
+  {
+    "name": "box64.deb",
+    "url": "https://Pi-Apps-Coders.github.io/box64-debs/debian/box64-tegrax1_0.4.5+20260928T130542.7b23f2b-1_arm64.deb",
+    "sha256": "b97b5346150cac913873faab75ab89306c7d9ba87102ec0b2a83b438b89d3e4a",
+    "bytes": 8755120
+  },
+  {
+    "name": "busybox-static.deb",
+    "url": "https://ports.ubuntu.com/ubuntu-ports/pool/main/b/busybox/busybox-static_1.36.1-6ubuntu3.1_arm64.deb",
+    "sha256": "d96535e0402c011e0ee43449799df2f4504d44b842e4f2b3a6cbc845508eaafc",
+    "bytes": 910700
+  },
+  {
+    "name": "host-squashfs.deb",
+    "url": "https://archive.ubuntu.com/ubuntu/pool/main/s/squashfs-tools/squashfs-tools_4.6.1-1build1_amd64.deb",
+    "sha256": "87fae263846bab255d4a51ad9fc623685497ad830db60758dde39589c9fdadcb",
+    "bytes": 189326
+  },
+  {
+    "name": "host-lzo.deb",
+    "url": "https://archive.ubuntu.com/ubuntu/pool/main/l/lzo2/liblzo2-2_2.10-2build4_amd64.deb",
+    "sha256": "e0d13be155013138b8db4cfe68212b866080af661c78302c2eab0d2f9d0d454e",
+    "bytes": 54148
+  },
+  {
+    "name": "qemu.deb",
+    "url": "https://archive.ubuntu.com/ubuntu/pool/universe/q/qemu/qemu-user-static_8.2.2+ds-0ubuntu1.18_amd64.deb",
+    "sha256": "5bb397f66063efa349f6fd5cb3b68cd96f29edd0994e4ba5115cf0859a716bf0",
+    "bytes": 14709858
+  },
+  {
+    "name": "steam-linuxarm64.tar.gz",
+    "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/linuxarm64.tar.gz",
+    "sha256": "70f9909dd89fb8d0d3142ce3f281d6b9e6124bf58fe127d056fa33b7e7b0962e",
+    "bytes": 15689654
+  },
+  {
+    "name": "steam-linux_x86_64.zip",
+    "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/linux_x86_64.zip",
+    "sha256": "d644802ad0af24908230c2923e2511aaa509ad10b0bc711e8f9def344d34c420",
+    "bytes": 34385861
+  },
+  {
+    "name": "steam-ui.zip",
+    "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/steamui_websrc_all.zip",
+    "sha256": "cf2c39424c12ceef1c6b9fa8e44a8835bee1211ffb2c25029f7ca789c091361e",
+    "bytes": 31427880
+  },
+  {
+    "name": "Switchdeck-LICENSE",
+    "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/LICENSE",
+    "sha256": "8b1ba204bb69a0ade2bfcf65ef294a920f6bb361b317dba43c7ef29d96332b9b",
+    "bytes": 35148
+  },
+  {
+    "name": "steam-arm64.partaa",
+    "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/steamrtarm64.tar.gz.partaa",
+    "sha256": "ffa923962928d94227c9b5b6a83c15dbb8bcf90175a9469462cc4aa9837c5823",
+    "bytes": 94371840
+  },
+  {
+    "name": "steam-arm64.partab",
+    "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/steamrtarm64.tar.gz.partab",
+    "sha256": "edd56fd8a230dd63f9989b8bb0d2612dc1775a5ab3328d0ed46798c342c06512",
+    "bytes": 94371840
+  },
+  {
+    "name": "steam-arm64.partac",
+    "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/steamrtarm64.tar.gz.partac",
+    "sha256": "c93a6c16db5c700abf680410eb9d8e433c31c3fd5860be8ddac6f76a5af1a903",
+    "bytes": 20515271
+  },
+  {
+    "name": "joycond.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble/main/j/joycond/joycond_0.6-1_arm64.deb",
+    "sha256": "efe658dc4b27e88bf7867e1a9cc43607da708408d49057b92aa7e277b7825ce6",
+    "bytes": 44970
+  },
+  {
+    "name": "switch-alsa-ucm2.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble/s/switch-alsa-ucm2/switch-alsa-ucm2_1.0-1+24.04_all.deb",
+    "sha256": "0684c6561395e06dd4422839a2062f1b46d5475a676cc038e79242c151741cd2",
+    "bytes": 4222
+  },
+  {
+    "name": "switch-joystick-mouse.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble/main/s/switch-joystick-mouse/switch-joystick-mouse_1.2-1_all.deb",
+    "sha256": "580e21ed0475032e4ac8e11eb08dbbdbff01136c98a62b1e6cce10187c022020",
+    "bytes": 2480
+  },
+  {
+    "name": "switch-sddm-rule.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble/main/s/switch-sddm-rule/switch-sddm-rule_1.0-1_all.deb",
+    "sha256": "0006e3f6e6c1e5fc07625f43b3ce102826b424f6bbb588fadb884df3e64ab6a0",
+    "bytes": 1628
+  },
+  {
+    "name": "xserver-xorg-core.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble/main/x/xorg-server/xserver-xorg-core_1.20.13-1ubuntu1~20.04.8_arm64.deb",
+    "sha256": "08398711324d2e0547d18a9ea815189d41c7477825ef7d0b0948a4a13a1cfa92",
+    "bytes": 1235020
+  },
+  {
+    "name": "xserver-xorg-input-joystick.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble/main/x/xserver-xorg-input-joystick/xserver-xorg-input-joystick_1.6.4-1.3_arm64.deb",
+    "sha256": "f5f6df9db3ad4b642756f694dacd1c070eea17eadf49030edd51c02bb9349271",
+    "bytes": 101384
+  },
+  {
+    "name": "xserver-xorg-input-libinput.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble/main/x/xserver-xorg-input-libinput/xserver-xorg-input-libinput_1.2.1-1_arm64.deb",
+    "sha256": "29a50e6309f70097d3362ae77e85faf797d58211850fb93df74ccc97cfdbf954",
+    "bytes": 36884
+  },
+  {
+    "name": "nvidia-bsp-32-7.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-bsp-32-7/nvidia-bsp-32-7_1.0-10_all.deb",
+    "sha256": "f27eb7f2f6486a431b73d5ae38464cdf1609d86142b4a41e6d7cee86ad84fefb",
+    "bytes": 2204
+  },
+  {
+    "name": "nvidia-l4t-3d-core.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-3d-core/nvidia-l4t-3d-core_32.7.4-20230608212426_arm64.deb",
+    "sha256": "6ff6d996a737f62230cc3b55f63a737f30ca1daf68dc52cecd1247d92341d95d",
+    "bytes": 28335660
+  },
+  {
+    "name": "nvidia-l4t-core.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-core/nvidia-l4t-core_32.7.4-20230608212426_arm64.deb",
+    "sha256": "7d816cf7bf7831f3ccde19e2bf6f9d731211b9146765271632fb2ed550522032",
+    "bytes": 2880206
+  },
+  {
+    "name": "nvidia-l4t-firmware.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-firmware/nvidia-l4t-firmware_32.7.4-20230608212426_arm64.deb",
+    "sha256": "349cb2b2b8197107c4ae07667e0410f026db3b9bacc04b715f890e1103968226",
+    "bytes": 1099516
+  },
+  {
+    "name": "nvidia-l4t-init.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-init/nvidia-l4t-init_32.7.4-20230608212426_arm64.deb",
+    "sha256": "a9042ce0559cc872928f45a11701fc121e51712c55b303e89c47fdfa06007dc7",
+    "bytes": 59688
+  },
+  {
+    "name": "nvidia-l4t-wayland.deb",
+    "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-wayland/nvidia-l4t-wayland_32.7.4-20230608212426_arm64.deb",
+    "sha256": "7a84265c48036fd747b482483b4305a833cf35ea83835488cb4a03f3c21aa014",
+    "bytes": 26768
+  },
+  {
+    "name": "libselinux1.deb",
+    "url": "https://ports.ubuntu.com/ubuntu-ports/pool/main/libs/libselinux/libselinux1_3.5-2ubuntu2.1_arm64.deb",
+    "sha256": "56630c4f009754e76808bf755072e634f8785a4dfbc8b1445213149e682f1502",
+    "bytes": 79946
+  }
+]

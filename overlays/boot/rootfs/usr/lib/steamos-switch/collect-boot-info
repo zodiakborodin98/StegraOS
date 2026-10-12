@@ -1,0 +1,33 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Local boot evidence only. No disk repair, update, network or credential access.
+set -u
+umask 077
+boot_id=$(cat /proc/sys/kernel/random/boot_id)
+case "$boot_id" in
+    *[!0-9a-f-]*|'') exit 2 ;;
+esac
+report="/var/log/steamos-switch/boot-${boot_id}.txt"
+# Do not replace an existing report or follow a report-name symlink.
+set -o noclobber
+exec 3>"$report" || exit 2
+{
+    printf '%s\n' 'SteamOS Switch: diagnostic console stage; graphics not validated.'
+    date --iso-8601=seconds
+    uname -a
+    printf '\nKernel command line:\n'
+    cat /proc/cmdline
+    printf '\nSystem identity:\n'
+    cat /etc/os-release
+    printf '\nPID 1:\n'
+    readlink /proc/1/exe
+    printf '\nCgroups:\n'
+    cat /proc/1/cgroup
+    printf '\nMounted filesystems:\n'
+    findmnt -r -o TARGET,SOURCE,FSTYPE,OPTIONS
+    printf '\nFailed units at collection time (boot may still be in progress):\n'
+    systemctl --no-pager --failed
+    printf '\nKernel log:\n'
+    dmesg
+} >&3 2>&3
+printf 'SteamOS Switch boot evidence saved to %s\n' "$report"

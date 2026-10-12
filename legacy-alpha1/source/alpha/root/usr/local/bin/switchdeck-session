@@ -1,0 +1,19 @@
+#!/bin/bash
+export XDG_CURRENT_DESKTOP=Openbox XDG_SESSION_DESKTOP=switchdeck XDG_SESSION_TYPE=x11
+export SDL_VIDEODRIVER=x11 QT_QPA_PLATFORM=xcb GSK_RENDERER=cairo LIBGL_KOPPER_DISABLE=true
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+export VK_ICD_FILENAMES=/etc/vulkan/icd.d/nvidia_icd.json
+export __EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/10_nvidia.json
+mkdir -p /home/steamos/.local/state/switchdeck
+exec >> /home/steamos/.local/state/switchdeck/session.log 2>&1
+echo "Session started: $(date -Is)"
+systemctl --user import-environment DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE || true
+dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP || true
+systemctl --user start pipewire.socket pipewire-pulse.socket wireplumber.service || true
+xset s off
+xset -dpms
+xsetroot -solid '#162236'
+openbox &
+/usr/local/bin/switchdeck-steam
+/usr/local/bin/switchdeck-menu
+wait

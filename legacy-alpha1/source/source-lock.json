@@ -1,0 +1,55 @@
+{
+  "verified_on": "2026-09-28",
+  "hash_origin": "SHA256 computed on the retrieved files; not a vendor signature",
+  "sources": [
+    {
+      "filename": "steamframe-0.3.0.img.zip",
+      "url": "https://steamdeck-images.steamos.cloud/recovery/steamframe-oobe-repair-20260922.5153644-0.3.0.img.zip",
+      "size_bytes": 4061612171,
+      "sha256": "672df1b9c5c6b849df506c995a32fe136b53c4db688f924e6727639dd8b963a9",
+      "role": "official Frame recovery image"
+    },
+    {
+      "filename": "switch-bsp.deb",
+      "url": "https://raw.githubusercontent.com/theofficialgman/l4t-debs/main/pool/noble/s/switch-bsp/switch-bsp_5.1.2-34+24.04_all.deb",
+      "size_bytes": 41672158,
+      "sha256": "3652c4303bf274e9148fde70ef6023c6cb3ade48b6d1170179d9caba6b975f4e",
+      "role": "Switch hardware components"
+    },
+    {
+      "filename": "nvidia-3d-32.3.1.deb",
+      "url": "https://raw.githubusercontent.com/theofficialgman/l4t-debs/main/pool/main/n/nvidia-l4t-3d-core/nvidia-l4t-3d-core_32.3.1-20191209225816_arm64.deb",
+      "size_bytes": 26860026,
+      "sha256": "9c49573477bde578e9f06a52f3fa230f2a7a2ad42b592abf9e43e9d04387641f",
+      "role": "Default Switchroot Noble NVIDIA stack, L4T 32.3.1"
+    },
+    {
+      "filename": "nvidia-core-32.3.1.deb",
+      "url": "https://raw.githubusercontent.com/theofficialgman/l4t-debs/main/pool/main/n/nvidia-l4t-core/nvidia-l4t-core_32.3.1-20191209225816_arm64.deb",
+      "size_bytes": 945368,
+      "sha256": "7ce24920c1bf37eea5752967480e68bef637efafd425691ab69ef5b91e208855",
+      "role": "Default Switchroot Noble NVIDIA stack, L4T 32.3.1"
+    },
+    {
+      "filename": "nvidia-firmware-32.3.1.deb",
+      "url": "https://raw.githubusercontent.com/theofficialgman/l4t-debs/main/pool/main/n/nvidia-l4t-firmware/nvidia-l4t-firmware_32.3.1-20191209225816_arm64.deb",
+      "size_bytes": 980154,
+      "sha256": "95d021027cee9ffdb4b65053fe508e0e06a87f261890dfcd1927cfc423bf13ad",
+      "role": "Default Switchroot Noble NVIDIA stack, L4T 32.3.1"
+    },
+    {
+      "filename": "nvidia-wayland-32.3.1.deb",
+      "url": "https://raw.githubusercontent.com/theofficialgman/l4t-debs/main/pool/main/n/nvidia-l4t-wayland/nvidia-l4t-wayland_32.3.1-20191209225816_arm64.deb",
+      "size_bytes": 20950,
+      "sha256": "d0cb89928cc516f49c28bb731ea732538454ca3dfbbae7e78da7be70b096b23c",
+      "role": "Default Switchroot Noble NVIDIA stack, L4T 32.3.1"
+    },
+    {
+      "filename": "qemu.deb",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/q/qemu/qemu-user-static_8.2.2+ds-0ubuntu1.18_amd64.deb",
+      "size_bytes": 14709858,
+      "sha256": "5bb397f66063efa349f6fd5cb3b68cd96f29edd0994e4ba5115cf0859a716bf0",
+      "role": "QEMU test tool"
+    }
+  ]
+}

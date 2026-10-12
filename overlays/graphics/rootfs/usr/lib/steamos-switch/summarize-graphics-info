@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+"""Summarize only successful, recognizable NVIDIA Vulkan enumeration."""
+import json
+from pathlib import Path
+import re
+import sys
+
+REQUIRED = (
+    "VK_KHR_external_memory_fd", "VK_EXT_external_memory_dma_buf",
+    "VK_KHR_external_semaphore_fd", "VK_EXT_robustness2",
+    "VK_KHR_dynamic_rendering", "VK_KHR_present_id", "VK_KHR_present_wait",
+    "VK_EXT_physical_device_drm", "VK_EXT_pci_bus_info",
+)
+
+
+def summarize(directory):
+    report = {"schema": 1, "status": "unknown", "source": None,
+              "extensions": {name: "unknown" for name in REQUIRED},
+              "note": "No successful recognizable NVIDIA Vulkan enumeration; inspect text logs."}
+    for name in ("vulkan-x11", "vulkan-headless"):
+        try:
+            status = (directory / (name + ".exit")).read_text().strip()
+            content = (directory / (name + ".txt")).read_text(errors="replace")
+        except FileNotFoundError:
+            continue
+        names = re.findall(r"(?m)^\s*deviceName\s*=\s*(.+)$", content)
+        vendor_ids = re.findall(r"(?m)^\s*vendorID\s*=\s*(\S+)", content)
+        try:
+            is_nvidia = bool(vendor_ids) and all(int(value, 0) == 0x10DE for value in vendor_ids)
+        except ValueError:
+            is_nvidia = False
+        extensions = set(re.findall(r"(?m)^\s*(VK_\w+)\s*:\s*extension revision\s+\d+", content))
+        if status != "0" or not names or not is_nvidia or not extensions or "Device Extensions" not in content:
+            continue
+        report.update(status="enumerated", source=name + ".txt", device_names=names,
+                      extensions={ext: ext in extensions for ext in REQUIRED},
+                      note="Actual NVIDIA ICD enumeration. Features, dma-buf interchange and presentation still require execution tests.")
+        report["api_versions"] = re.findall(r"(?m)^\s*apiVersion\s*=\s*(.+)$", content)
+        report["feature_lines"] = re.findall(r"(?m)^\s*(?:dynamicRendering|timelineSemaphore|scalarBlockLayout)\s*=\s*\S+", content)
+        break
+    target = directory / "capabilities.json"
+    with target.open("x", encoding="utf-8") as stream:
+        json.dump(report, stream, indent=2)
+        stream.write("\n")
+    return report
+
+
+if __name__ == "__main__":
+    summarize(Path(sys.argv[1]))

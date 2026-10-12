@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "checked_at": "2026-09-28",
+  "status": "Compatibility candidates; not a complete Steam client seed; not hardware validated",
+  "repository": {
+    "url": "https://github.com/SildurFX/Switchdeck",
+    "commit": "be0578fbf00c5a14a988a830f914f2c34cdaa1a1"
+  },
+  "hash_source": "Git blob SHA1 verified against the pinned commit tree; SHA256 calculated locally from matching downloads",
+  "artifacts": [
+    {
+      "name": "linux_x86_64.zip",
+      "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/linux_x86_64.zip",
+      "size": 34385861,
+      "git_blob_sha1": "b4f36eb79efdfad0b3b5c4b713e4771c45ff39e9",
+      "sha256": "d644802ad0af24908230c2923e2511aaa509ad10b0bc711e8f9def344d34c420",
+      "role": "switchdeck-client-downgrade"
+    },
+    {
+      "name": "linuxarm64.tar.gz",
+      "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/linuxarm64.tar.gz",
+      "size": 15689654,
+      "git_blob_sha1": "7c239e1d13a4510b04327d5a2813762c5e34c632",
+      "sha256": "70f9909dd89fb8d0d3142ce3f281d6b9e6124bf58fe127d056fa33b7e7b0962e",
+      "role": "switchdeck-client-downgrade"
+    },
+    {
+      "name": "steam.cfg",
+      "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/steam.cfg",
+      "size": 47,
+      "git_blob_sha1": "ae27f7aa8ba752b8c442461bfd7e0fc98a9d4a40",
+      "sha256": "8746a4be42bd66cf2499d1e098c3988e54a846012dda6e841fd6aaf9a117a070",
+      "role": "switchdeck-client-downgrade"
+    },
+    {
+      "name": "steamrtarm64.tar.gz.partaa",
+      "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/steamrtarm64.tar.gz.partaa",
+      "size": 94371840,
+      "git_blob_sha1": "5ca68a51d5b457d66f223efd8de859502d21ff9b",
+      "sha256": "ffa923962928d94227c9b5b6a83c15dbb8bcf90175a9469462cc4aa9837c5823",
+      "role": "switchdeck-client-downgrade"
+    },
+    {
+      "name": "steamrtarm64.tar.gz.partab",
+      "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/steamrtarm64.tar.gz.partab",
+      "size": 94371840,
+      "git_blob_sha1": "77bab19173d07f94f1a0a528a5f88cf5b01433f8",
+      "sha256": "edd56fd8a230dd63f9989b8bb0d2612dc1775a5ab3328d0ed46798c342c06512",
+      "role": "switchdeck-client-downgrade"
+    },
+    {
+      "name": "steamrtarm64.tar.gz.partac",
+      "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/steamrtarm64.tar.gz.partac",
+      "size": 20515271,
+      "git_blob_sha1": "03cd7f4288931f5c0cc48e82aa106137bb707f58",
+      "sha256": "c93a6c16db5c700abf680410eb9d8e433c31c3fd5860be8ddac6f76a5af1a903",
+      "role": "switchdeck-client-downgrade"
+    },
+    {
+      "name": "steamui_websrc_all.zip",
+      "url": "https://raw.githubusercontent.com/SildurFX/Switchdeck/be0578fbf00c5a14a988a830f914f2c34cdaa1a1/files/downgrade/steamui_websrc_all.zip",
+      "size": 31427880,
+      "git_blob_sha1": "d88a88fb443261c5befb6a92a2f3a1fa896c3fe2",
+      "sha256": "cf2c39424c12ceef1c6b9fa8e44a8835bee1211ffb2c25029f7ca789c091361e",
+      "role": "switchdeck-client-downgrade"
+    },
+    {
+      "name": "steam-runtime-steamrt-arm64.tar.xz",
+      "url": "https://repo.steampowered.com/steamrt3c/images/3c.0.20260824.257593/steam-runtime-steamrt-arm64.tar.xz",
+      "size": 52436064,
+      "sha256": "2f2be461b6a4360828e200e1644e18cd957eedc36a38e5a1e13a39276320b6e2",
+      "role": "valve-native-runtime",
+      "hash_source": "https://repo.steampowered.com/steamrt3c/images/3c.0.20260824.257593/SHA256SUMS"
+    },
+    {
+      "name": "steam-runtime-steamrt-arm64.sh",
+      "url": "https://repo.steampowered.com/steamrt3c/images/3c.0.20260824.257593/steam-runtime-steamrt-arm64.sh",
+      "size": 9700,
+      "sha256": "803d5a5f4ac198002450b57ef5387df234353f83ca012049c2f6b3a9a13ccbb9",
+      "role": "valve-native-runtime",
+      "hash_source": "https://repo.steampowered.com/steamrt3c/images/3c.0.20260824.257593/SHA256SUMS"
+    },
+    {
+      "name": "steam-runtime-steamrt-arm64.VERSIONS.txt",
+      "url": "https://repo.steampowered.com/steamrt3c/images/3c.0.20260824.257593/steam-runtime-steamrt-arm64.VERSIONS.txt",
+      "size": 288,
+      "sha256": "83779212d56d85307ec5a51668c7e0bc1e85a30ca0262c847086143f6b6b2020",
+      "role": "valve-native-runtime",
+      "hash_source": "https://repo.steampowered.com/steamrt3c/images/3c.0.20260824.257593/SHA256SUMS"
+    }
+  ],
+  "stock_base": {
+    "path": "/usr/lib/steam/steam.tar.zst",
+    "size": 705186334,
+    "sha256": "eb79a4106aaba4d6ccffd23e2583695974cf6a3aef9a3f9b2bf39d9e634df472",
+    "source_rootfs_sha256": "aa05cb52a1ad1c2d0c3d4d88f0e738d6808d85fcca3b4cc42cd2bee9578b3ab2"
+  }
+}

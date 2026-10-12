@@ -1,0 +1,12 @@
+#!/bin/bash
+set -eu
+# No clocks, voltages, partition tables, bootloader or eMMC changes.
+for module in nvgpu uinput joydev ledtrig-timer; do modprobe "$module" || true; done
+if [[ -e /sys/block/zram0/disksize ]] && [[ $(cat /sys/block/zram0/disksize) = 0 ]]; then
+    echo lz4 > /sys/block/zram0/comp_algorithm
+    echo 3072M > /sys/block/zram0/disksize
+    mkswap /dev/zram0
+    swapon -p 5 /dev/zram0
+fi
+mkdir -p /var/log/journal /var/lib/switchdeck
+chmod 2755 /var/log/journal

@@ -1,0 +1,15 @@
+[Unit]
+Description=Record SteamOS Switch console bring-up information
+After=local-fs.target systemd-journald.service
+Before=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/steamos-switch/collect-boot-info
+LogsDirectory=steamos-switch
+LogsDirectoryMode=0700
+StandardOutput=journal+console
+StandardError=journal+console
+
+[Install]
+WantedBy=multi-user.target

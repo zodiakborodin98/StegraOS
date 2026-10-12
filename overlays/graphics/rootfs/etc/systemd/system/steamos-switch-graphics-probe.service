@@ -1,0 +1,24 @@
+[Unit]
+Description=Bounded local NVIDIA graphics diagnostics for SteamOS Switch
+After=local-fs.target systemd-udev-trigger.service systemd-udevd.service steamos-switch-boot-info.service
+Before=multi-user.target
+ConditionPathExists=/usr/lib/steamos-switch-nvidia/run
+
+[Service]
+Type=oneshot
+ExecStartPre=-/usr/bin/udevadm settle --timeout=15
+ExecStart=/usr/lib/steamos-switch/collect-graphics-info
+LogsDirectory=steamos-switch
+LogsDirectoryMode=0700
+RuntimeDirectory=steamos-switch-graphics
+RuntimeDirectoryMode=0700
+TimeoutStartSec=250
+TimeoutStopSec=5
+KillMode=control-group
+LimitFSIZE=16777216
+Environment=LC_ALL=C
+StandardOutput=journal+console
+StandardError=journal+console
+
+[Install]
+WantedBy=multi-user.target

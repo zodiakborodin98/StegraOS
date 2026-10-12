@@ -1,0 +1,67 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Writes only small boot reports to the same SD card as the root filesystem.
+# Never searches other disks, never mounts eMMC, never partitions or repairs.
+set -Eeuo pipefail
+umask 077
+mnt=/run/steamos-switch-fat
+owned=0
+cleanup() {
+    if [[ $owned == 1 ]]; then
+        actual=$(findmnt --nofsroot -rn -o SOURCE --mountpoint "$mnt") || return
+        if [[ $actual == "$fat" ]]; then umount -- "$mnt"; fi
+    fi
+}
+trap cleanup EXIT
+fail() { printf 'SteamOS Switch log export skipped: %s\n' "$*"; exit 0; }
+boot_id=$(cat /proc/sys/kernel/random/boot_id)
+[[ $boot_id =~ ^[0-9a-f-]{36}$ ]] || fail 'invalid boot ID'
+root=$(findmnt --nofsroot -rn -o SOURCE --mountpoint /)
+[[ $root =~ ^/dev/(mmcblk[0-9]+)p([0-9]+)$ ]] || fail 'root is not a directly mounted MMC partition'
+disk=${BASH_REMATCH[1]}
+[[ $(cat "/sys/class/block/$disk/device/type") == SD ]] || fail 'root device is not an SD card'
+fat="/dev/${disk}p1"
+[[ $root != "$fat" && -b $fat ]] || fail 'no distinct first partition on the root SD'
+[[ $(blkid -p -s TYPE -o value "$fat") == vfat ]] || fail 'first partition is not FAT'
+if findmnt -rn -S "$fat" >/dev/null; then fail 'FAT partition is already mounted'; fi
+[[ -d $mnt && ! -L $mnt ]] || fail 'runtime mount directory missing'
+mount -t vfat -o ro,nosuid,nodev,noexec,umask=0077 -- "$fat" "$mnt"
+owned=1
+sentinel="$mnt/switchroot/steamos/diagnostic-log-target"
+[[ -f $sentinel && $(stat -c %s "$sentinel") == 45 ]] || fail 'diagnostic sentinel absent'
+[[ $(cat "$sentinel") == SteamOS-Switch-Mariko-console-diagnostics-v1 ]] || fail 'diagnostic sentinel mismatch'
+# The preceding checks identify a single owned mount of the boot partition on
+# the root SD. Only this mount is changed to writable, and EXIT unmounts it.
+mount -o remount,rw,nosuid,nodev,noexec,umask=0077 -- "$mnt"
+directory="$mnt/switchroot/steamos/logs/$boot_id"
+mkdir -p -- "$directory"
+total=0
+copy_bounded() {
+    local source=$1 name=$2 bytes
+    [[ -f $source && ! -L $source ]] || return 0
+    bytes=$(stat -c %s "$source")
+    (( bytes <= 2097152 )) || bytes=2097152
+    (( total + bytes <= 8388608 )) || return 0
+    # A unique boot ID and noclobber prevent replacing earlier reports.
+    if [[ ! -e $directory/$name ]]; then
+        (set -o noclobber; head -c "$bytes" -- "$source" > "$directory/$name")
+    fi
+    total=$((total + bytes))
+}
+copy_bounded "/var/log/steamos-switch/boot-$boot_id.txt" boot.txt
+graphics="/var/log/steamos-switch/graphics-$boot_id"
+for name in probe.txt Xorg.log Xorg-console.txt vulkan-headless.txt vulkan-headless.exit \
+    vulkan-x11.txt vulkan-x11.exit glx.txt glx.exit egl.txt egl.exit xdisplay.txt \
+    xdisplay.exit capabilities.json gamescope.txt gamescope.exit; do
+    copy_bounded "$graphics/$name" "$name"
+done
+if [[ ! -e $directory/export.txt ]]; then
+    (set -o noclobber; {
+        printf 'Experimental SteamOS Switch diagnostics; no bootability or graphics guarantee.\n'
+        date --iso-8601=seconds
+        systemctl --no-pager --failed || true
+        printf '\nReport cap: 2 MiB/file, 8 MiB/boot.\n'
+    } > "$directory/export.txt")
+fi
+sync -f "$mnt"
+printf 'SteamOS Switch diagnostics exported to SD: /switchroot/steamos/logs/%s\n' "$boot_id"

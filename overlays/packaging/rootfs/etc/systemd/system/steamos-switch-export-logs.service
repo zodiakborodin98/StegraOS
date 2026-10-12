@@ -1,0 +1,13 @@
+[Unit]
+Description=Copy bounded boot diagnostics to the validated SD boot directory
+After=steamos-switch-boot-info.service steamos-switch-graphics-probe.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/steamos-switch/export-boot-logs
+RuntimeDirectory=steamos-switch-fat
+RuntimeDirectoryMode=0700
+PrivateMounts=yes
+TimeoutStartSec=60
+StandardOutput=journal+console
+StandardError=journal+console

@@ -1,0 +1,22 @@
+#!/bin/bash
+set -uo pipefail
+base=/run/initramfs/mounts/boot/switchdeck-logs
+[[ -d "$base" ]] || exit 1
+run=$(cat /run/switchdeck-run)
+[[ "$run" =~ ^[0-9]+$ ]] || exit 1
+out="$base/alpha1-${run}-system.log"
+{
+    echo 'Switchdeck SteamOS Alpha 1'; date -Is; uname -a; cat /etc/os-release
+    df -h / /run/initramfs/mounts/data; free -m; systemctl --failed --no-pager --plain
+    for unit in systemd-udevd systemd-logind switchdeck-hardware joycond sddm; do
+        echo "=== $unit ==="; journalctl -b -u "$unit" --no-pager -n 160
+    done
+    echo '=== Graphics/kernel errors ==='
+    dmesg | grep -Ei 'nvgpu|tegradc|firmware|PMU|fault|error|panic' | tail -180
+    for log in /var/log/Xorg.0.log /home/steamos/.local/share/xorg/Xorg.0.log; do
+        [[ ! -f "$log" ]] || { echo '=== Xorg ==='; tail -250 "$log"; }
+    done
+    echo '=== Session processes ==='; pgrep -a -x 'Xorg|openbox|steam|steamwebhelper' || true
+    echo 'LOG_COMPLETE'
+} 2>&1 | sed -E 's/([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}/[MAC redacted]/g' > "$out.new"
+mv -f "$out.new" "$out"; sync -f "$out"

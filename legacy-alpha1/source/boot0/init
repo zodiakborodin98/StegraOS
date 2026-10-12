@@ -1,0 +1,234 @@
+#!/bin/bash
+# Switchdeck Boot0: isolated userspace/GPU probe in RAM.
+# No partitioning, filesystem repair, rootfs install, network, or OS update.
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export LC_ALL=C
+export LANG=C
+ulimit -c 0
+
+fr() {
+    local program="$1"
+    shift
+    LD_LIBRARY_PATH=/frame/lib /frame/lib/ld-linux-aarch64.so.1 --library-path /frame/lib "/frame/bin/$program" "$@"
+}
+
+say() {
+    echo "Switchdeck Boot0: $*" > /dev/console
+}
+
+halt_probe() {
+    say "$*"
+    say "No further operations. Hold POWER to turn off."
+    while :; do sleep 60; done
+}
+
+mount -t proc proc /proc || exit 1
+mount -t devtmpfs devtmpfs /dev || exit 1
+mount -t sysfs sysfs /sys || halt_probe "Cannot mount sysfs."
+mkdir -p /run /tmp /mnt/boot
+chmod 1777 /tmp
+say "Starting CPU, Vulkan and display checks."
+
+# Hekate supplies the FAT partition number. eMMC is disabled in this boot entry,
+# so the SD card is mmcblk0. Never search, mount, or write another device.
+boot_partition=1
+for argument in $(cat /proc/cmdline); do
+    case "$argument" in
+        boot_p=*) boot_partition="${argument#boot_p=}" ;;
+    esac
+done
+case "$boot_partition" in
+    ''|*[!0-9]*) halt_probe "Invalid boot partition number." ;;
+esac
+if (( boot_partition < 1 || boot_partition > 128 )); then
+    halt_probe "Boot partition number is out of range."
+fi
+sd_fat="/dev/mmcblk0p${boot_partition}"
+for (( attempt=0; attempt<100; attempt++ )); do
+    [[ -b "$sd_fat" ]] && break
+    sleep 0.1
+done
+[[ -b "$sd_fat" ]] || halt_probe "SD card is not visible to Linux."
+mount -t vfat -o rw,noatime "$sd_fat" /mnt/boot || halt_probe "Cannot mount the boot FAT partition."
+mkdir -p /mnt/boot/switchdeck-logs || halt_probe "Cannot create the log directory."
+run=1
+while [[ -e "/mnt/boot/switchdeck-logs/boot0-${run}.log" ]]; do
+    ((run++))
+done
+log="/mnt/boot/switchdeck-logs/boot0-${run}.log"
+exec > "$log" 2>&1
+echo 'SWITCHDECK BOOT0 r6 2026-09-28'
+echo 'This is a hardware probe, not a SteamOS installation.'
+cat /proc/version
+grep -E '^(processor|Features|CPU implementer|CPU architecture|CPU variant|CPU part|CPU revision)' /proc/cpuinfo
+grep -E '^(MemTotal|MemAvailable)' /proc/meminfo
+echo 'Frame source:'
+cat /frame/os-release
+echo
+echo '=== Boot and panel metadata ==='
+for argument in $(cat /proc/cmdline); do
+    case "$argument" in
+        switchdeck_display_id=*|switchdeck_sku=*|switchdeck_loader_rev=*|switchdeck_panel_strategy=*) echo "$argument" ;;
+    esac
+done
+if [[ -s /mnt/boot/switchroot/switch.cal ]]; then
+    echo 'switch.cal: present (contents not collected)'
+else
+    echo 'switch.cal: absent or empty; use Hekate > Nyx Options > Dump Joy-Con BT'
+fi
+for path in /proc/device-tree/model /proc/device-tree/host1x/dsi/status; do
+    if [[ -r "$path" ]]; then
+        property=''
+        IFS= read -r -d '' property < "$path" || true
+        printf '%s: %s\n' "$path" "$property"
+    fi
+done
+for path in /proc/device-tree/host1x/dsi/nvidia,active-panel \
+            /proc/device-tree/host1x/dsi/panel*/phandle; do
+    if [[ -r "$path" ]]; then
+        printf '%s (big-endian hex): ' "$path"
+        fr od -An -tx1 "$path"
+    fi
+done
+
+probe() {
+    local name="$1"
+    shift
+    echo
+    echo "=== $name ==="
+    say "$name"
+    # The timeout is from the Frame image and uses that image's loader too.
+    fr timeout --signal=TERM --kill-after=3 30 \
+        /frame/lib/ld-linux-aarch64.so.1 --library-path /frame/lib "$@"
+    local result=$?
+    echo "RESULT $name $result"
+    last_probe_result=$result
+}
+
+probe bash /frame/bin/bash --version
+probe libc-true /frame/bin/true
+probe systemd-version /frame/bin/systemd --version
+
+echo
+echo '=== GPU firmware paths ==='
+cat /frame/gpu-profile.txt
+firmware_failed=0
+while IFS= read -r path; do
+    if [[ -r "$path" && -s "$path" ]]; then
+        echo "FIRMWARE_OK $path"
+    else
+        echo "FIRMWARE_MISSING $path"
+        firmware_failed=1
+    fi
+done < /frame/gpu-firmware-paths.txt
+echo "RESULT gpu-firmware-paths $firmware_failed"
+fr sha256sum --check /frame/gpu-firmware.sha256
+firmware_checksum_result=$?
+echo "RESULT gpu-firmware-checksums $firmware_checksum_result"
+(( firmware_checksum_result == 0 )) || firmware_failed=1
+ls -l /lib/firmware/gm20b /lib/firmware/tegra21x/NETB_img.bin
+if (( firmware_failed == 0 )); then
+    for name in NETB_img.bin acr_ucode.bin; do
+        echo "$name header:"
+        fr od -An -N16 -tx1 "/lib/firmware/gm20b/$name"
+    done
+fi
+
+echo
+echo '=== GPU modules ==='
+fr sync
+probe modprobe-nvgpu /frame/bin/modprobe nvgpu
+fr sync
+probe modprobe-tegra-udrm /frame/bin/modprobe tegra-udrm modeset=1
+fr sync
+sleep 2
+cat /proc/modules
+ls -l /dev/dri /dev/fb* /dev/nvmap /dev/nvhost* 2>&1
+echo
+echo '=== Display state ==='
+for path in /sys/module/tegra_udrm/parameters/modeset \
+            /sys/class/graphics/fb*/name /sys/class/graphics/fb*/modes \
+            /sys/class/graphics/fb*/virtual_size /sys/class/graphics/fb*/bits_per_pixel \
+            /sys/class/backlight/*/brightness /sys/class/backlight/*/actual_brightness \
+            /sys/class/backlight/*/max_brightness /sys/class/backlight/*/bl_power \
+            /sys/class/drm/card*/status /sys/class/drm/card*/enabled /sys/class/drm/card*/modes; do
+    if [[ -r "$path" ]]; then
+        echo "$path:"
+        cat "$path"
+    fi
+done
+
+echo
+echo '=== Vulkan loader files ==='
+ls -l /frame/lib/libvulkan.so.1 /frame/lib/libGLX_nvidia.so.0 \
+      /frame/lib/libEGL_nvidia.so.0 /frame/nvidia_icd.json /frame/nvidia_egl.json
+LD_LIBRARY_PATH=/frame/lib /frame/lib/ld-linux-aarch64.so.1 \
+    --library-path /frame/lib --list /frame/lib/libvulkan.so.1
+echo "RESULT vulkan-loader-dependencies $?"
+
+mkdir -p /run/switchdeck
+chmod 0700 /run/switchdeck
+export XDG_RUNTIME_DIR=/run/switchdeck
+export XDG_CACHE_HOME=/run/switchdeck/cache
+export VK_ICD_FILENAMES=/frame/nvidia_icd.json
+export VK_DRIVER_FILES=/frame/nvidia_icd.json
+export __EGL_VENDOR_LIBRARY_FILENAMES=/frame/nvidia_egl.json
+export VK_LOADER_DEBUG=error,warn,driver
+fr sync
+if (( firmware_failed == 0 )); then
+    probe vulkan-summary /frame/bin/vulkaninfo --summary
+    if (( last_probe_result == 0 )); then
+        fr sync
+        probe vulkan-capabilities /frame/bin/vulkaninfo
+        fr sync
+        probe gpu-compute /frame/bin/gpu-compute
+    fi
+else
+    echo 'SKIP vulkan-summary: GPU firmware paths are incomplete'
+fi
+
+echo
+echo '=== Gamescope version after GPU initialization ==='
+echo 'This only checks process startup. R32.3.1 lacks features required by this Gamescope compositor.'
+if [[ -r /proc/sys/kernel/random/entropy_avail ]]; then
+    printf 'entropy_avail before gamescope: '
+    cat /proc/sys/kernel/random/entropy_avail
+fi
+# Trace only this isolated process. Keep random bytes and ioctl payloads raw;
+# never collect environment variables, user files, or calibration contents.
+fr sync
+probe gamescope-version /frame/bin/strace -f --kill-on-exit -tt -s 128 \
+    -e trace=openat,close,ioctl,futex,getrandom,connect,clock_nanosleep,poll,ppoll,exit_group \
+    -e raw=getrandom,ioctl -o /tmp/gamescope-version.strace \
+    /frame/lib/ld-linux-aarch64.so.1 --library-path /frame/lib /frame/bin/gamescope --version
+echo '=== Gamescope syscall trace (last 100 lines) ==='
+tail -n 100 /tmp/gamescope-version.strace
+fr sync
+
+echo
+echo '=== Physical display test ==='
+echo 'CPU framebuffer pattern, 20 seconds. Photograph the display. No Steam UI yet.'
+echo 'A successful ioctl or buffer write cannot confirm physical visibility.'
+say "Display test for 20 seconds. Please take a photo."
+probe framebuffer-test /frame/bin/framebuffer-test
+fr sync
+
+echo
+echo '=== Relevant kernel messages ==='
+# Filter to graphics; do not collect Wi-Fi settings, keys, console serials,
+# arbitrary home files, or complete device-tree dumps.
+dmesg | grep -v 'Kernel command line:' | \
+    grep -Ei 'nvgpu|tegra.?udrm|nvmap|vulkan|tegradc|host1x|dsi|panel|display|framebuffer|\[drm\]|firmware.*(gpu|fecs|gpccs)|gpu.*(error|fail)' || true
+echo
+echo "LOG_COMPLETE boot0-${run}.log"
+say "Finished. Log: switchdeck-logs/boot0-${run}.log"
+fr sync
+# Release the writable FAT log before remounting. Keeping stdout/stderr on
+# this file caused EBUSY in r5 even after sync completed.
+exec > /dev/console 2>&1
+mount -o remount,ro /mnt/boot || halt_probe "Log written; could not remount SD read-only. Power off after activity stops."
+say "Returning to Hekate in 5 seconds."
+sleep 5
+chmod 755 /sbin/reboot
+/sbin/reboot -f
+halt_probe "Automatic reboot did not complete."

@@ -1,0 +1,14 @@
+_work/
+build/
+/bin/
+downloads/
+output/
+stage/
+sysroots/
+__pycache__/
+*.pyc
+*.o
+*.spv
+legacy-alpha1/source/steamos/
+probe/bin/
+probe/src/gen/

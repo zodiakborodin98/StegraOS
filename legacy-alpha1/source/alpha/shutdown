@@ -1,0 +1,21 @@
+#!/bin/sh
+# Late systemd initramfs teardown of loop-backed overlay root.
+export PATH=/bin
+bb() { /bin/busybox "$@"; }
+bb mount -t proc proc /proc 2>/dev/null || :
+bb sync
+for pass in 1 2 3 4 5; do
+    bb awk '$2 ~ /^\/oldroot\// {print $2}' /proc/mounts | bb sort -r |
+        while read -r target; do bb umount "$target" 2>/dev/null || :; done
+    bb umount /oldroot 2>/dev/null || :
+    bb umount /mounts/lower 2>/dev/null || :
+    bb umount /mounts/data 2>/dev/null || :
+    bb losetup -D 2>/dev/null || :
+    bb umount /mounts/boot 2>/dev/null || :
+done
+bb sync
+if bb grep -Eq ' /oldroot | /mounts/data | /mounts/boot ' /proc/mounts; then
+    echo 'Switchdeck: filesystem busy; staying powered on to protect userdata.' > /dev/console
+    while :; do bb sleep 60; done
+fi
+case "$1" in reboot|kexec) bb reboot -f ;; *) bb poweroff -f ;; esac

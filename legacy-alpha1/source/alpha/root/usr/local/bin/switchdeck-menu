@@ -1,0 +1,14 @@
+#!/bin/bash
+while true; do
+    choice=$(zenity --list --title='SteamOS for Switch — Alpha 1' --width=640 --height=440 \
+        --text='Choose an action. Capture toggles joystick mouse mapping.' --column=Action \
+        'Start Steam' 'Wi-Fi setup' 'Terminal' 'Export diagnostics' 'Restart to Hekate' 'Power off') || { sleep 1; continue; }
+    case "$choice" in
+        'Start Steam') /usr/local/bin/switchdeck-steam ;;
+        'Wi-Fi setup') xterm -fa Monospace -fs 15 -e nmtui ;;
+        'Terminal') xterm -fa Monospace -fs 15 ;;
+        'Export diagnostics') sudo /usr/local/sbin/switchdeck-diagnostics; zenity --info --text='Diagnostics saved in switchdeck-logs on the SD card.' ;;
+        'Restart to Hekate') systemctl reboot ;;
+        'Power off') systemctl poweroff ;;
+    esac
+done

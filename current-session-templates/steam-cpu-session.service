@@ -1,0 +1,34 @@
+[Unit]
+Description=CPU Steam + Gamescope persistent session (llvmpipe8/depthfix2, stretch1)
+Documentation=file:/usr/local/lib/steam-cpu/README.md
+After=switchdeck-hardware.service
+Wants=switchdeck-hardware.service
+Conflicts=display-manager.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=exec
+User=steamos
+Slice=system.slice
+KillMode=control-group
+TimeoutStopSec=30
+Restart=no
+Environment=HOME=/home/steamos
+Environment=STEAM_GM_ROOT=/run/initramfs/mounts/data/steam-gm/m7g-seed-1/steam
+Environment=VK_ICD_FILENAMES=/etc/vulkan/icd.d/nvidia_icd.json
+Environment=VK_DRIVER_FILES=/etc/vulkan/icd.d/nvidia_icd.json
+Environment="VK_LOADER_LAYERS_DISABLE=*"
+Environment=DISABLE_MANGOHUD=1
+Environment=GAMESCOPE_WSI_FORCE_BYPASS=1
+Environment=DISABLE_FOSSILIZE=1
+Environment=XDG_RUNTIME_DIR=/run/steam-cpu-session
+UnsetEnvironment=DISPLAY WAYLAND_DISPLAY LD_PRELOAD
+RuntimeDirectory=steam-cpu-session
+RuntimeDirectoryMode=0700
+WorkingDirectory=/home/steamos/steamos-switch-dev/steam-gm1
+ExecStartPre=+/usr/local/lib/steam-cpu/display-prep.sh on
+ExecStart=/usr/local/lib/steam-cpu/launch-session.sh
+ExecStopPost=+/usr/local/lib/steam-cpu/display-prep.sh off
+
+[Install]
+WantedBy=graphical.target

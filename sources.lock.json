@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "checked_at": "2026-09-28",
+  "target": "Nintendo Switch 1 Mariko (T210B01)",
+  "status": "port-in-progress; not a bootable release",
+  "repositories": {
+    "SteamOS-ARM-Handhelds": {"url": "https://github.com/hashtagbasit/SteamOS-ARM-Handhelds", "commit": "9b76f610b3f89d1fcc4dd902d37d495625151a71"},
+    "Switchdeck": {"url": "https://github.com/SildurFX/Switchdeck", "commit": "be0578fbf00c5a14a988a830f914f2c34cdaa1a1"},
+    "l4t-debs-source": {"url": "https://github.com/theofficialgman/l4t-debs-source", "commit": "2127bb25513d7c1d280dbc634aa30c074203acd0"}
+  },
+  "steamos": {
+    "build": "20260925.6175226",
+    "rootfs_size": 10737418240,
+    "rootfs_sha256": "aa05cb52a1ad1c2d0c3d4d88f0e738d6808d85fcca3b4cc42cd2bee9578b3ab2",
+    "stores": ["https://steamdeck-images.steamos.cloud/vr/20260925.6175226/deckard-20260925.6175226-0.5.0.castr", "https://steamdeck-images.steamos.cloud/vr/chunks.castr"]
+  },
+  "artifacts": [
+    {"name": "deckard-20260925.6175226-0.5.0.raucb", "url": "https://steamdeck-images.steamos.cloud/vr/20260925.6175226/deckard-20260925.6175226-0.5.0.raucb", "size": 2274242, "sha256": "65991fff2d57580ec315d2713eb59dc217520115a3596d44a2b06b994c413a43", "role": "steamos-metadata", "hash_source": "locally calculated from HTTPS download; RAUC signature not verified"},
+    {"name": "switch-bsp_5.1.2-34+24.04_all.deb", "url": "https://theofficialgman.github.io/l4t-debs/pool/noble/s/switch-bsp/switch-bsp_5.1.2-34+24.04_all.deb", "size": 41672158, "sha256": "3652c4303bf274e9148fde70ef6023c6cb3ade48b6d1170179d9caba6b975f4e", "role": "switch-bsp"},
+    {"name": "nvidia-l4t-3d-core_32.7.4-20230608212426_arm64.deb", "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-3d-core/nvidia-l4t-3d-core_32.7.4-20230608212426_arm64.deb", "size": 28335660, "sha256": "6ff6d996a737f62230cc3b55f63a737f30ca1daf68dc52cecd1247d92341d95d", "role": "nvidia-analysis"},
+    {"name": "nvidia-l4t-core_32.7.4-20230608212426_arm64.deb", "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-core/nvidia-l4t-core_32.7.4-20230608212426_arm64.deb", "size": 2880206, "sha256": "7d816cf7bf7831f3ccde19e2bf6f9d731211b9146765271632fb2ed550522032", "role": "nvidia-analysis"},
+    {"name": "nvidia-l4t-firmware_32.7.4-20230608212426_arm64.deb", "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-firmware/nvidia-l4t-firmware_32.7.4-20230608212426_arm64.deb", "size": 1099516, "sha256": "349cb2b2b8197107c4ae07667e0410f026db3b9bacc04b715f890e1103968226", "role": "nvidia-analysis"},
+    {"name": "nvidia-l4t-init_32.7.4-20230608212426_arm64.deb", "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-init/nvidia-l4t-init_32.7.4-20230608212426_arm64.deb", "size": 59688, "sha256": "a9042ce0559cc872928f45a11701fc121e51712c55b303e89c47fdfa06007dc7", "role": "nvidia-analysis"},
+    {"name": "nvidia-l4t-libvulkan_32.7.4-20230608212426_arm64.deb", "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-libvulkan/nvidia-l4t-libvulkan_32.7.4-20230608212426_arm64.deb", "size": 107958, "sha256": "962f2d109dc38094bd99ee1252e3653e82763f1a27b9ac7b6d29afb25dc62c4d", "role": "nvidia-analysis"},
+    {"name": "nvidia-l4t-configs_32.7.4-20230608212426_arm64.deb", "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-configs/nvidia-l4t-configs_32.7.4-20230608212426_arm64.deb", "size": 1439688, "sha256": "7f6a2ebc397838f92b0fb6fd96c4d659363686e6f2f4f4f1db11a27c9907f227", "role": "nvidia-analysis"},
+    {"name": "nvidia-l4t-wayland_32.7.4-20230608212426_arm64.deb", "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-wayland/nvidia-l4t-wayland_32.7.4-20230608212426_arm64.deb", "size": 26768, "sha256": "7a84265c48036fd747b482483b4305a833cf35ea83835488cb4a03f3c21aa014", "role": "nvidia-analysis"},
+    {"name": "nvidia-l4t-x11_32.7.4-20230608212426_arm64.deb", "url": "https://theofficialgman.github.io/l4t-debs/pool/noble-32-7/main-32-7/n/nvidia-l4t-x11/nvidia-l4t-x11_32.7.4-20230608212426_arm64.deb", "size": 5160, "sha256": "da76afc8720c49736c1939338dcf3ffa37fb382ae9488dc5bb48c37b2a0cf852", "role": "nvidia-analysis"}
+  ]
+}
