@@ -1,5 +1,9 @@
 # CPU Steam autostart package (persistent Gamescope + Steam)
 
+The files in this directory are the **historical CPU rollback** recipe.
+The current development profile is [480p Zink](zink-480p/README.md), whose source
+templates require their own complete qualified runtime closure.
+
 Additive replacement of the Alpha 1 Xorg/Openbox/Zenity startup with the latest
 demonstrated CPU Steam route (stretch1 d7114ae: llvmpipe8 + depthfix2, o180sx1,
 `-w 1280 -h 720 -W 720 -H 1280 -r 60 --scaler stretch`).  No accepted artifact

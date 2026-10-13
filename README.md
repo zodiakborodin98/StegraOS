@@ -1,5 +1,11 @@
 # SteamOS Tegra / Nintendo Switch — source image builders
 
+**13 October 2026:** the development device now has a persistent 854x480
+Zink/NVIDIA Steam UI baseline, with the old CPU route retained for rollback.
+[Current Zink session sources](current-session-templates/zink-480p/README.md)
+and [graphics/CPU explanation](https://github.com/zodiakborodin98/gamescope-tegra/blob/main/docs/ZINK-STEAM-UI.md).
+This is not a newly boot-qualified downloadable installation image.
+
 > **Development status: not suitable for everyday use.**
 > This project is a research prototype, not a practical SteamOS gaming system at
 > this stage. Serious performance, stability and game compatibility limitations

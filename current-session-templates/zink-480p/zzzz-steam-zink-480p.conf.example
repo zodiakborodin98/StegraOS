@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Adapt paths and qualify the assembled payload before installing; this is not an installer.
+[Unit]
+Description=Steam + Gamescope (480p Zink/NVIDIA)
+[Service]
+ExecStart=
+ExecStart=/opt/steam-tegra/zink-480p/launch-session-480p-zink.sh
+RuntimeDirectory=steam-zink-baseline-480p
+RuntimeDirectoryMode=0700
+RuntimeMaxSec=infinity
+BindReadOnlyPaths=/opt/steam-tegra/zink-480p/cef-zink.sh:/opt/steam-tegra/steam/steamrtarm64/steamwebhelper.sh
+BindReadOnlyPaths=/opt/steam-tegra/zink-480p/cef/steamwebhelper:/opt/steam-tegra/steam/steamrtarm64/steamwebhelper

@@ -1,5 +1,11 @@
 # Scope and current reproducibility limits
 
+**Update 13 October 2026:** current device UI is480p Zink/NVIDIA, not the
+CPU profile described below. Source templates for that route are in
+`current-session-templates/zink-480p/`; they preserve the functional fixes and
+have optional diagnostics disabled. Fresh image/boot/game compatibility remains
+unqualified. The rest of this document describes historical image-building limits.
+
 The project has a working physical-Switch Gamescope+CPU-rendered Steam baseline.
 Native FEZ/SMB were visually accepted. This repository is source packaging, not a new
 qualified image release and not proof that a freshly built image equals the current device.

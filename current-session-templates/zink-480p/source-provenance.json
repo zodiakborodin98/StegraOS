@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-13",
+  "service_name": "steam-cpu-session.service",
+  "diagnostics": "disabled at user request; subsequent visual verdict pending",
+  "fresh_template_install_hardware_qualified": false,
+  "sources": {
+    "launch-session-480p-zink.sh": {
+      "installed_development_source_sha256": "7917e7972e31ab163a0053f949158ee405d6ecececfff72d030b5a8d62532f72",
+      "template_sha256": "64d12e63e86e8006f7bdc353e83fd5b56e2dec17124431a0f108d49f9fc85072",
+      "changes": "install paths, explicit user build pin, GPL notice; functional graphics retained"
+    },
+    "cef-zink.sh": {
+      "installed_development_source_sha256": "49485f2ce6761be3c675350838764f691a4f50e6f5d42ff9ee29abe1919069c9",
+      "template_sha256": "62a57dbd64b19733df394bc8117e486fb071d1d3ba9e84a5cb2de0421fbcccc2",
+      "changes": "install paths, explicit user build pin, GPL notice; functional graphics retained"
+    }
+  }
+}
