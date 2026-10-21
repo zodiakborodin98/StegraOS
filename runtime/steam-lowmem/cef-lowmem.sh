@@ -1,0 +1,3 @@
+#!/bin/sh
+# SPDX-License-Identifier: MIT
+exec /usr/bin/python3 /usr/local/lib/steam-cpu/steam-lowmem.py gate "$@"

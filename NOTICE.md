@@ -1,3 +1,6 @@
+<!-- publication-2026-10-21 -->
+The newly added Stegra Control/input/boot sources retain their existing MIT or other per-file notices. The project GPL packaging license does not erase these grants. The hardware integration derives from the previously credited Switchdeck/Switchroot platform; no vendor binary is included.
+
 # Attribution and licenses
 
 * Valve/SteamOS/Gamescope: the external ARM userland/compositor platform.

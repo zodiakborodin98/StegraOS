@@ -1,0 +1,9 @@
+#!/bin/bash
+set -eu
+# No clocks, voltages, partition tables, bootloader or eMMC changes.
+for module in nvgpu uinput joydev ledtrig-timer; do modprobe "$module" || true; done
+/usr/bin/python3 /usr/local/lib/steam-perf-panel/zram_control.py --boot || {
+    logger -t stegra-zram 'ZRAM setup failed; keeping existing swap untouched'
+}
+mkdir -p /var/log/journal /var/lib/switchdeck
+chmod 2755 /var/log/journal

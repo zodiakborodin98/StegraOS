@@ -1,3 +1,6 @@
+<!-- publication-2026-10-21 -->
+**21 October 2026:** the existing card now runs **720p Zink/mode3**, with updated input, Stegra Control and next-boot ZRAM sources. [Current system and Beta1 limits](docs/UPDATE-2026-10-21.md). The dated480p profile below is historical; the separate Beta1 image still lacks a successful boot qualification.
+
 # SteamOS Tegra / Nintendo Switch — source image builders
 
 **13 October 2026:** the development device now has a persistent 854x480

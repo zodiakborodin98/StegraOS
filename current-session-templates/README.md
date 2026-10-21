@@ -1,3 +1,6 @@
+<!-- publication-2026-10-21 -->
+These CPU/480p session templates are historical. See [current runtime integration](../runtime/README.md) and [system status](../docs/UPDATE-2026-10-21.md) before using them.
+
 # CPU Steam autostart package (persistent Gamescope + Steam)
 
 The files in this directory are the **historical CPU rollback** recipe.

@@ -1,0 +1,17 @@
+[Unit]
+Description=StegraOS first-boot diagnostic capture (runtime only)
+DefaultDependencies=no
+Wants=systemd-journald.service
+After=systemd-journald.service
+Before=sysinit.target shutdown.target
+Conflicts=shutdown.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /run/stegra-boot/capture-systemd.sh
+RuntimeMaxSec=1200
+TimeoutStopSec=5
+KillMode=control-group
+StandardInput=null
+StandardOutput=null
+StandardError=null

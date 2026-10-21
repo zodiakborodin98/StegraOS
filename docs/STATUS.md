@@ -1,3 +1,6 @@
+<!-- publication-2026-10-21 -->
+See [21 October status](UPDATE-2026-10-21.md) for the current working-card/Beta1 distinction. Validation below describes its dated source snapshot.
+
 # Scope and current reproducibility limits
 
 **Update 13 October 2026:** current device UI is480p Zink/NVIDIA, not the

@@ -1,0 +1,14 @@
+[Unit]
+Description=Stegra Control performance backend (CPU/GPU constraints)
+After=switch-perf.service
+Wants=switch-perf.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/lib/steam-perf-panel/perf_daemon.py
+Restart=on-failure
+RestartSec=2
+TimeoutStopSec=12
+
+[Install]
+WantedBy=graphical.target

@@ -1,0 +1,15 @@
+# Requested UI catalog. Not a hardware allowlist or a stability certification.
+# Labels are MHz; canonical supported rates and units come from the backend.
+clock_tables_mhz:
+  sysclk_original:
+    cpu: [612, 714, 816, 918, 1020, 1122, 1224, 1326, 1428, 1581, 1683, 1785]
+    gpu: [76, 153, 230, 307, 384, 460, 537, 614, 691, 768, 844, 921]
+    ram: [665, 800, 1065, 1331, 1600]
+  sysclk_oc_extra:
+    cpu: [1887, 1963, 2091, 2193, 2295, 2397]
+    gpu: [998, 1075, 1152, 1228, 1267, 1305]
+    ram: [1728, 1795, 1862, 1894, 1932, 1996, 2064, 2099, 2131]
+  oc_suite_ram_extra:
+    ram: [2361, 2400, 2502, 2665, 2931, 3200]
+  l4t_mariko_ram:
+    ram: [1600, 1866, 2133, 2166, 2200, 2233, 2266, 2300, 2333, 2366, 2400, 2433, 2466, 2500, 2533, 2566, 2600, 2633, 2666, 2700, 2733, 2766, 2800, 2833, 2866, 2900, 2933, 2966, 3000, 3033, 3066, 3100, 3133, 3166, 3200]

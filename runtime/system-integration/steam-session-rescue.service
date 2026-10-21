@@ -1,0 +1,25 @@
+[Unit]
+Description=Hold Switch Capture for 3 seconds to restart Steam session
+After=systemd-udev-trigger.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 -u /usr/local/lib/steam-cpu/session-rescue.py
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=5
+User=root
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX
+DevicePolicy=closed
+DeviceAllow=char-input r
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

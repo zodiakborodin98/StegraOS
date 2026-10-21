@@ -1,0 +1,16 @@
+[Unit]
+Description=M10T global CEF unload policy
+After=default.target
+
+[Service]
+Type=simple
+Environment=DISPLAY=:0
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+Environment=HOME=/home/steamos
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/python3 /usr/local/lib/steam-perf-panel/lowmem_global.py
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target
